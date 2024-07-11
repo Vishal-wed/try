@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".linear_signup"
+    android:background="@drawable/backgroundimg"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/sign"
+        android:textColor="@color/mainLogin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Sign Up"
+        android:textSize="@dimen/_40sdp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_marginTop="@dimen/_40sdp"
+        />
+
+    <EditText
+        android:inputType="text"
+        android:layout_marginTop="@dimen/_40sdp"
+        android:id="@+id/createname"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/sign"
+        android:background="@drawable/custom_input"
+        android:hint="Enter your name"
+        android:drawableStart="@drawable/person"
+        android:drawablePadding="@dimen/_10sdp"
+        android:padding="@dimen/_15sdp"
+        android:layout_marginHorizontal="@dimen/_10sdp"
+        android:textSize="@dimen/_15sdp"/>
+
+    <EditText
+        android:layout_marginTop="@dimen/_20sdp"
+        android:id="@+id/createEmail"
+        android:inputType="textEmailAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/createname"
+        android:background="@drawable/custom_input"
+        android:hint="Enter your Email"
+        android:drawableStart="@drawable/baseline_email_24"
+        android:drawablePadding="@dimen/_10sdp"
+        android:padding="@dimen/_15sdp"
+        android:layout_marginHorizontal="@dimen/_10sdp"
+        android:textSize="@dimen/_15sdp"/>
+
+    <EditText
+        android:layout_marginTop="@dimen/_20sdp"
+        android:inputType="number"
+        android:id="@+id/createNumber"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/createEmail"
+        android:background="@drawable/custom_input"
+        android:hint="Enter your Mobile Number"
+        android:drawableStart="@drawable/baseline_phone_24"
+        android:drawablePadding="@dimen/_10sdp"
+        android:padding="@dimen/_15sdp"
+        android:layout_marginHorizontal="@dimen/_10sdp"
+        android:textSize="@dimen/_15sdp"/>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/createNumber"
+        android:id="@+id/frame_pass">
+
+        <EditText
+            android:inputType="textPassword"
+            android:id="@+id/createPass"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/createNumber"
+            android:layout_marginHorizontal="@dimen/_10sdp"
+            android:background="@drawable/custom_input"
+            android:hint="Create your password"
+            android:drawableStart="@drawable/baseline_lock_24"
+            android:drawablePadding="@dimen/_10sdp"
+            android:padding="@dimen/_15sdp"
+            android:textSize="@dimen/_15sdp"/>
+
+        <ImageView
+            android:id="@+id/sign_show"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:src="@drawable/show"
+            android:layout_gravity="end|center"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_20sdp"/>
+
+        <ImageView
+            android:id="@+id/sign_hide"
+            android:visibility="gone"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:src="@drawable/hide"
+            android:layout_gravity="end|center"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_20sdp"/>
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/frame_pass"
+        android:id="@+id/frame_cpass">
+
+        <EditText
+            android:inputType="textPassword"
+            android:id="@+id/createPassf"
+            android:layout_marginTop="@dimen/_20sdp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/createPass"
+            android:layout_marginHorizontal="@dimen/_10sdp"
+            android:background="@drawable/custom_input"
+            android:hint="Create your password"
+            android:drawableStart="@drawable/baseline_lock_24"
+            android:drawablePadding="@dimen/_10sdp"
+            android:padding="@dimen/_15sdp"
+            android:textSize="@dimen/_15sdp"/>
+
+        <ImageView
+            android:id="@+id/sign_cshow"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:src="@drawable/show"
+            android:layout_gravity="end|center"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_20sdp"/>
+
+        <ImageView
+            android:id="@+id/sign_chide"
+            android:visibility="gone"
+            android:layout_width="@dimen/_20sdp"
+            android:layout_height="@dimen/_20sdp"
+            android:src="@drawable/hide"
+            android:layout_gravity="end|center"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_20sdp"/>
+
+    </FrameLayout>
+
+    <Button
+        android:id="@+id/submit_button"
+        android:layout_marginTop="@dimen/_35sdp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/frame_cpass"
+        android:text="Submt"
+        android:textSize="@dimen/_20sdp"
+        android:padding="@dimen/_10sdp"
+        android:background="@drawable/custom_button"
+        android:textColor="@color/white"
+        app:backgroundTint="@null"
+        android:layout_marginHorizontal="@dimen/_70sdp"/>
+
+</LinearLayout>
