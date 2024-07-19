@@ -2,12 +2,17 @@ package com.example.atry;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,7 +25,13 @@ public class signUp extends AppCompatActivity {
     EditText phone,pass, cpass,email,name;
     String emailPatten = "[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]+";
     ImageView hide,show,chide,cshow;
-    @SuppressLint("MissingInflatedId")
+    CheckBox check;
+    RadioGroup radio;
+    String sradio;
+    SQLiteDatabase db;
+
+
+    @SuppressLint({"MissingInflatedId", "WrongViewCast"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,21 +42,29 @@ public class signUp extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
-        name=findViewById(R.id.createname);
-        phone=findViewById(R.id.createNumber);
-        pass=findViewById(R.id.createPass);
-        cpass=findViewById(R.id.createPassf);
-        email=findViewById(R.id.createEmail);
 
-       back = findViewById(R.id.back_button);
-       submit = findViewById(R.id.submit_button);
+        db = openOrCreateDatabase("diploma.db", MODE_PRIVATE, null);
 
-       back.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View view) {
-               onBackPressed();
-           }
-       });
+        String create_table = "create table if not exists users(name varchar(20), email varchar(50), number bigint(10), passsword varchar(20), gender varchar(6))";
+        db.execSQL(create_table);
+
+        name = findViewById(R.id.createname);
+        phone = findViewById(R.id.createNumber);
+        pass = findViewById(R.id.createPass);
+        cpass = findViewById(R.id.createPassf);
+        email = findViewById(R.id.createEmail);
+        radio = findViewById(R.id.gender);
+        check = findViewById(R.id.team);
+        submit = findViewById(R.id.submit_button);
+
+        radio.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener(){
+            @Override
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                RadioButton rd = findViewById(i);
+                sradio = rd.getText().toString();
+                new CommonMethod(signUp.this, sradio);
+            }
+        });
 
        submit.setOnClickListener(new View.OnClickListener() {
            @Override
@@ -80,8 +99,27 @@ public class signUp extends AppCompatActivity {
                else if(!pass.getText().toString().equals(cpass.getText().toString())) {
                    cpass.setError("password Don't match. enter again");
                }
-               else {
-                   onBackPressed();
+               else if (!check.isChecked()){
+                   new CommonMethod(signUp.this, "check Team & Condition");
+               } else if (radio.getCheckedRadioButtonId() == -1) {
+                   new CommonMethod(signUp.this, "select gender");
+               } else {
+                   String exist_check = "select * from users where email = '"+email.getText().toString()+"' or number = "+phone.getText().toString()+";";
+                   Cursor cursor = db.rawQuery(exist_check, null);
+
+                   if (cursor.getCount() > 0){
+
+                       
+                       new CommonMethod(signUp.this, "this user is already exist");
+                   }
+                    else {
+                       new CommonMethod(signUp.this, "clicked");
+
+                       String insert_value = "insert into users values('" + name.getText().toString() + "','" + email.getText().toString() + "', " + phone.getText().toString() + ", '" + pass.getText().toString() + "', '" + sradio + "')";
+                       db.execSQL(insert_value);
+                       Intent i = new Intent(signUp.this, MainActivity.class);
+                       startActivity(i);
+                   }
                }
            }
        });

@@ -2,6 +2,8 @@ package com.example.atry;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.health.connect.datatypes.units.Length;
 import android.os.Bundle;
 import android.text.method.PasswordTransformationMethod;
@@ -28,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
     TextView showAns, signUp;
     EditText user,pass;
     ImageView hide,show;
+    SQLiteDatabase db;
+
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
         login = findViewById(R.id.login_btn);
         user = findViewById(R.id.email);
         pass = findViewById(R.id.password);
+
+        db = openOrCreateDatabase("diploma.db", MODE_PRIVATE, null);
 
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -63,19 +69,16 @@ public class MainActivity extends AppCompatActivity {
                 else if (pass.getText().toString().trim().length() < 6){
                     pass.setError("Minimum 6 letter required");
                 } else {
-                    //if (user.getText().toString().equals("vishal")) {
-                      //  if (pass.getText().toString().equals("vishal7")) {
-                            Intent intent = new Intent(MainActivity.this, tryActivity.class);
-                            startActivity(intent);
-//                            new CommonMethod(view, "clicked");
-                            new CommonMethod(MainActivity.this, "clicked");
-//                        }else{
-//                            pass.setError("Wrong Password");
-//                        }
-//                    }else {
-//                        user.setError("Wrong E-mail");
-//                    }
+                    String Check_user = "select * from users where email = '"+user.getText().toString()+"' and passsword = '"+pass.getText().toString()+"';";
+                    Cursor curs = db.rawQuery(Check_user, null);
+                    if (curs.getCount() > 0) {
+                        new CommonMethod(MainActivity.this, "clicked");
+                        Intent intent = new Intent(MainActivity.this, tryActivity.class);
+                        startActivity(intent);
+                    } else {
+                        new CommonMethod(MainActivity.this, "Wrong email/password");
                     }
+                }
            }
         });
 
