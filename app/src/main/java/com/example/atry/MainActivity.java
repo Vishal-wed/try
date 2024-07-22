@@ -2,10 +2,12 @@ package com.example.atry;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.health.connect.datatypes.units.Length;
 import android.os.Bundle;
+import android.se.omapi.Session;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.Button;
@@ -31,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
     EditText user,pass;
     ImageView hide,show;
     SQLiteDatabase db;
+    SharedPreferences sp;
+
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -38,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
+        sp = getSharedPreferences(ConstantSp.pref, MODE_PRIVATE);
 
         signUp = findViewById(R.id.signUp);
         login = findViewById(R.id.login_btn);
@@ -70,9 +75,25 @@ public class MainActivity extends AppCompatActivity {
                     pass.setError("Minimum 6 letter required");
                 } else {
                     String Check_user = "select * from users where email = '"+user.getText().toString()+"' and passsword = '"+pass.getText().toString()+"';";
-                    Cursor curs = db.rawQuery(Check_user, null);
-                    if (curs.getCount() > 0) {
-                        new CommonMethod(MainActivity.this, "clicked");
+                    Cursor cursor = db.rawQuery(Check_user, null);
+                    if (cursor.getCount() > 0) {
+
+                        while (cursor.moveToNext()){
+                            String sname = cursor.getString(0);
+                            String semail = cursor.getString(1);
+                            String snumber = cursor.getString(2);
+                            String spassword = cursor.getString(3);
+                            String sgender = cursor.getString(4);
+
+                            sp.edit().putString(ConstantSp.name, sname).commit();
+                            sp.edit().putString(ConstantSp.email, semail).commit();
+                            sp.edit().putString(ConstantSp.number, snumber).commit();
+                            sp.edit().putString(ConstantSp.password, spassword).commit();
+                            sp.edit().putString(ConstantSp.gender, sgender).commit();
+
+                        }
+
+                        new CommonMethod(MainActivity.this, "Login successfully");
                         Intent intent = new Intent(MainActivity.this, tryActivity.class);
                         startActivity(intent);
                     } else {
